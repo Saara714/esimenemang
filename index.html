@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valge Tiigri Mäng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .tiger-name {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .tiger-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tiger-display {
+            font-size: 150px;
+            margin: 20px 0;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+        }
+
+        .tiger-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .status-bar {
+            width: 100%;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .status-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .status-value {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .friends-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .friend-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .friend-emoji {
+            font-size: 2em;
+        }
+
+        .friend-name {
+            flex: 1;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .clothes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .clothes-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .clothes-item:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .clothes-emoji {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .clothes-name {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .task-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #43e97b;
+            margin-bottom: 10px;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .task-text {
+            flex: 1;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .task-reward {
+            font-weight: bold;
+            color: #f5576c;
+            font-size: 0.9em;
+        }
+
+        .message {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: #856404;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .modal-text {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @keyframes walkingAnimation {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(10px) translateY(-5px); }
+            50% { transform: translateX(0) translateY(0); }
+            75% { transform: translateX(-10px) translateY(-5px); }
+        }
+
+        @keyframes bouncingAnimation {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes eatingAnimation {
+            0%, 100% { transform: scaleY(1); }
+            25% { transform: scaleY(0.9); }
+            50% { transform: scaleY(0.8); }
+            75% { transform: scaleY(0.9); }
+        }
+
+        @keyframes sleepingAnimation {
+            0%, 100% { transform: rotateZ(-15deg) translateX(-20px); }
+            50% { transform: rotateZ(-15deg) translateX(-25px); }
+        }
+
+        @keyframes bathingAnimation {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(25deg); }
+            75% { transform: rotate(-25deg); }
+        }
+
+        .tiger-display {
+            animation: walkingAnimation 2s ease-in-out infinite;
+        }
+
+        .tiger-display.eating {
+            animation: eatingAnimation 0.8s ease-in-out !important;
+        }
+
+        .tiger-display.playing {
+            animation: bouncingAnimation 0.6s ease-in-out !important;
+        }
+
+        .tiger-display.sleeping {
+            animation: sleepingAnimation 1.5s ease-in-out !important;
+        }
+
+        .tiger-display.bathing {
+            animation: bathingAnimation 1s ease-in-out !important;
+        }
+
+        .tail {
+            animation: tailWag 1.5s ease-in-out infinite;
+            transform-origin: 85px 90px;
+        }
+
+        .playing .tail {
+            animation: tailWag 0.5s ease-in-out !important;
+        }
+
+        @media (max-width: 768px) {
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .clothes-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .level-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .achievement {
+            display: inline-block;
+            font-size: 2em;
+            margin: 5px;
+            cursor: help;
+            title: "achievement";
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐯 Valge Tiigri Mäng</h1>
+            <div class="tiger-name" id="tigerName">Sneezy</div>
+        </div>
+
+        <div class="game-layout">
+            <div class="tiger-section">
+                <div class="tiger-display" id="tigerDisplay">
+                    <svg width="140" height="160" viewBox="0 0 140 160">
+                        <!-- Back paw left -->
+                        <ellipse cx="40" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                        <ellipse cx="40" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
+                        
+                        <!-- Back paw right -->
+                        <ellipse cx="100" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                        <ellipse cx="100" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
+                        
+                        <!-- Body -->
+                        <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                        <!-- Belly -->
+                        <ellipse cx="70" cy="100" rx="25" ry="35" fill="#fffacd" opacity="0.5" stroke="none"/>
+                        
+                        <!-- Head -->
+                        <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                        
+                        <!-- Ears -->
+                        <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                        <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                        <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
+                        <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
+                        
+                        <!-- Stripes on head -->
+                        <path d="M 50 35 Q 55 42 50 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 90 35 Q 85 42 90 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Stripes on body -->
+                        <path d="M 55 80 Q 60 90 55 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M 85 80 Q 80 90 85 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        <path d="M 50 110 Q 55 120 50 130" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 90 110 Q 85 120 90 130" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Eyes -->
+                        <circle cx="54" cy="40" r="5" fill="#000"/>
+                        <circle cx="86" cy="40" r="5" fill="#000"/>
+                        <circle cx="55" cy="39" r="1.5" fill="#fff"/>
+                        <circle cx="87" cy="39" r="1.5" fill="#fff"/>
+                        
+                        <!-- Eyebrows -->
+                        <path d="M 48 34 Q 54 32 60 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 80 34 Q 86 32 92 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Nose -->
+                        <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
+                        
+                        <!-- Mouth -->
+                        <path d="M 70 56 Q 62 63 55 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M 70 56 Q 78 63 85 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <!-- Tongue -->
+                        <ellipse cx="70" cy="65" rx="3" ry="4" fill="#ff9999" opacity="0.7"/>
+                        
+                        <!-- Front paw left -->
+                        <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                        <ellipse cx="50" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
+                        <!-- Paw pads -->
+                        <circle cx="46" cy="142" r="1.5" fill="#ffb3cc"/>
+                        <circle cx="50" cy="143" r="1.5" fill="#ffb3cc"/>
+                        <circle cx="54" cy="142" r="1.5" fill="#ffb3cc"/>
+                        
+                        <!-- Front paw right -->
+                        <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                        <ellipse cx="90" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
+                        <!-- Paw pads -->
+                        <circle cx="86" cy="142" r="1.5" fill="#ffb3cc"/>
+                        <circle cx="90" cy="143" r="1.5" fill="#ffb3cc"/>
+                        <circle cx="94" cy="142" r="1.5" fill="#ffb3cc"/>
+                        
+                        <!-- Tail -->
+                        <g class="tail">
+                            <path d="M 105 85 Q 125 75 130 55" stroke="#f5f0ff" stroke-width="14" fill="none" stroke-linecap="round"/>
+                            <path d="M 105 85 Q 125 75 130 55" stroke="#ffb3cc" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <div class="tiger-status">
+                    <div class="status-item">
+                        <div class="status-label">Näljane</div>
+                        <div class="status-bar"><div class="status-fill" id="hungerBar" style="width: 70%"></div></div>
+                        <div class="status-value" id="hungerValue">70%</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Õnnellikkus</div>
+                        <div class="status-bar"><div class="status-fill" id="happinessBar" style="width: 80%"></div></div>
+                        <div class="status-value" id="happinessValue">80%</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Energia</div>
+                        <div class="status-bar"><div class="status-fill" id="energyBar" style="width: 90%"></div></div>
+                        <div class="status-value" id="energyValue">90%</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Puhtus</div>
+                        <div class="status-bar"><div class="status-fill" id="cleanBar" style="width: 60%"></div></div>
+                        <div class="status-value" id="cleanValue">60%</div>
+                    </div>
+                </div>
+
+                <div class="message" id="message">Tere! Ma olen Sneezy! 🎉</div>
+
+                <div class="controls">
+                    <button class="btn btn-success" onclick="feed()">🍖 Söida</button>
+                    <button class="btn btn-info" onclick="play()">🎮 Mängi</button>
+                    <button class="btn btn-secondary" onclick="sleep()">😴 Uni</button>
+                    <button class="btn btn-secondary" onclick="bath()">🚿 Pesi</button>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="level-display">
+                    Level: <span id="level">1</span> | Kogemused: <span id="xp">0</span>/100
+                </div>
+
+                <div class="section">
+                    <h2>👗 Riided</h2>
+                    <div class="clothes-grid" id="clothesGrid"></div>
+                </div>
+
+                <div class="section">
+                    <h2>👥 Sõbrad</h2>
+                    <div id="friendsList"></div>
+                    <button class="btn" style="width: 100%; margin-top: 10px;" onclick="findFriend()">🔍 Otsi Sõpra</button>
+                </div>
+
+                <div class="section">
+                    <h2>📋 Ülesanded</h2>
+                    <div id="tasksList"></div>
+                </div>
+
+                <div class="section">
+                    <h2>🏆 Saavutused</h2>
+                    <div id="achievements"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="friendModal">
+        <div class="modal-content">
+            <div class="modal-emoji" id="friendEmoji">🦁</div>
+            <div class="modal-text" id="friendText">Tere! Mina olen Simba. Kas sa tahad minuga sõbraks?</div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="rejectFriend()">Ei</button>
+                <button class="btn btn-success" onclick="acceptFriend()">Jah! 😊</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        const game = {
+            tigerName: 'Sneezy',
+            hunger: 70,
+            happiness: 80,
+            energy: 90,
+            cleanliness: 60,
+            xp: 0,
+            level: 1,
+            clothes: [],
+            currentOutfit: { top: null, bottom: null, hat: null },
+            friends: [],
+            tasks: [
+                { id: 1, text: 'Söida 3 korda', completed: false, reward: 20 },
+                { id: 2, text: 'Mängi 2 korda', completed: false, reward: 15 },
+                { id: 3, text: 'Pida alla 30% näljane', completed: false, reward: 25 },
+                { id: 4, text: 'Leia 3 sõpra', completed: false, reward: 50 },
+                { id: 5, text: 'Kasuta 5 erinevat riiet', completed: false, reward: 30 }
+            ],
+            achievements: [],
+            message: 'Tere! Ma olen Sneezy! 🎉'
+        };
+
+        const clothingItems = [
+            { id: 1, name: 'Müts', emoji: '🎩', type: 'hat' },
+            { id: 2, name: 'Prillid', emoji: '🕶️', type: 'hat' },
+            { id: 3, name: 'Suhvad', emoji: '🧥', type: 'top' },
+            { id: 4, name: 'Kleit', emoji: '👗', type: 'top' },
+            { id: 5, name: 'Jop', emoji: '🧤', type: 'top' },
+            { id: 6, name: 'Puks', emoji: '👖', type: 'bottom' },
+            { id: 7, name: 'Sukad', emoji: '🧦', type: 'bottom' },
+            { id: 8, name: 'Kingad', emoji: '👞', type: 'bottom' }
+        ];
+
+        const possibleFriends = [
+            { name: 'Simba', emoji: '🦁' },
+            { name: 'Ellie', emoji: '🐘' },
+            { name: 'Géra', emoji: '🦒' },
+            { name: 'Marty', emoji: '🦓' },
+            { name: 'Fiona', emoji: '🦛' },
+            { name: 'Panda', emoji: '🐼' },
+            { name: 'Koala', emoji: '🐨' },
+            { name: 'Lemur', emoji: '🐵' }
+        ];
+
+        let pendingFriend = null;
+
+        // Initialize game
+        function init() {
+            game.clothes = [...clothingItems];
+            renderClothesList();
+            renderFriendsList();
+            renderTasks();
+            renderAchievements();
+            updateUI();
+
+            // Decrease stats over time
+            setInterval(() => {
+                if (game.hunger > 0) game.hunger -= 0.5;
+                if (game.energy > 0) game.energy -= 0.2;
+                if (game.cleanliness > 0) game.cleanliness -= 0.3;
+                if (game.hunger < 100 && Math.random() > 0.7) game.happiness -= 1;
+                
+                game.hunger = Math.max(0, Math.min(100, game.hunger));
+                game.energy = Math.max(0, Math.min(100, game.energy));
+                game.cleanliness = Math.max(0, Math.min(100, game.cleanliness));
+                game.happiness = Math.max(0, Math.min(100, game.happiness));
+                
+                updateUI();
+            }, 5000);
+        }
+
+        function updateUI() {
+            // Update status bars
+            document.getElementById('hungerBar').style.width = game.hunger + '%';
+            document.getElementById('happinessBar').style.width = game.happiness + '%';
+            document.getElementById('energyBar').style.width = game.energy + '%';
+            document.getElementById('cleanBar').style.width = game.cleanliness + '%';
+
+            document.getElementById('hungerValue').innerText = Math.round(game.hunger) + '%';
+            document.getElementById('happinessValue').innerText = Math.round(game.happiness) + '%';
+            document.getElementById('energyValue').innerText = Math.round(game.energy) + '%';
+            document.getElementById('cleanValue').innerText = Math.round(game.cleanliness) + '%';
+
+            // Update XP and level
+            document.getElementById('xp').innerText = Math.round(game.xp);
+            document.getElementById('level').innerText = game.level;
+
+            // Update message
+            document.getElementById('message').innerText = getRandomMessage();
+
+            // Update tiger display based on mood
+            updateTigerDisplay();
+
+            // Check tasks
+            checkTasks();
+        }
+
+        function updateTigerDisplay() {
+            let svgContent = getTigerSVG();
+            
+            let outfit = '<div style="position: relative; display: inline-block;">';
+            outfit += svgContent;
+            
+            // Add clothing on top
+            let clothingHTML = '';
+            if (game.currentOutfit.hat) {
+                clothingHTML += `<div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.hat}</div>`;
+            }
+            if (game.currentOutfit.top) {
+                clothingHTML += `<div style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.top}</div>`;
+            }
+            if (game.currentOutfit.bottom) {
+                clothingHTML += `<div style="position: absolute; top: 70px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.bottom}</div>`;
+            }
+            
+            outfit += clothingHTML + '</div>';
+            document.getElementById('tigerDisplay').innerHTML = outfit;
+        }
+
+        function getTigerSVG() {
+            let mood = 'happy';
+            if (game.hunger < 30) mood = 'hungry';
+            else if (game.energy < 30) mood = 'tired';
+            else if (game.happiness > 85) mood = 'happy';
+            else if (game.cleanliness < 30) mood = 'dirty';
+
+            const svgs = {
+                happy: `<svg width="140" height="160" viewBox="0 0 140 160">
+                    <ellipse cx="40" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="40" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
+                    <ellipse cx="100" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="100" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
+                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="70" cy="100" rx="25" ry="35" fill="#fffacd" opacity="0.5" stroke="none"/>
+                    <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
+                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
+                    <path d="M 50 35 Q 55 42 50 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 90 35 Q 85 42 90 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 55 80 Q 60 90 55 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 85 80 Q 80 90 85 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <circle cx="54" cy="40" r="5" fill="#000"/>
+                    <circle cx="86" cy="40" r="5" fill="#000"/>
+                    <circle cx="55" cy="39" r="2" fill="#fff"/>
+                    <circle cx="87" cy="39" r="2" fill="#fff"/>
+                    <path d="M 48 34 Q 54 30 60 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 80 34 Q 86 30 92 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
+                    <path d="M 70 56 Q 62 64 55 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 70 56 Q 78 64 85 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="66" rx="3" ry="4" fill="#ff9999" opacity="0.7"/>
+                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="50" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
+                    <circle cx="46" cy="142" r="1.5" fill="#ffb3cc"/>
+                    <circle cx="50" cy="143" r="1.5" fill="#ffb3cc"/>
+                    <circle cx="54" cy="142" r="1.5" fill="#ffb3cc"/>
+                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="90" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
+                    <circle cx="86" cy="142" r="1.5" fill="#ffb3cc"/>
+                    <circle cx="90" cy="143" r="1.5" fill="#ffb3cc"/>
+                    <circle cx="94" cy="142" r="1.5" fill="#ffb3cc"/>
+                    <g class="tail">
+                        <path d="M 105 85 Q 125 75 130 55" stroke="#f5f0ff" stroke-width="14" fill="none" stroke-linecap="round"/>
+                        <path d="M 105 85 Q 125 75 130 55" stroke="#ffb3cc" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    </g>
+                </svg>`,
+                hungry: `<svg width="140" height="160" viewBox="0 0 140 160">
+                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2" opacity="0.85"/>
+                    <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
+                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
+                    <circle cx="54" cy="40" r="5" fill="#000"/>
+                    <circle cx="86" cy="40" r="5" fill="#000"/>
+                    <path d="M 54 46 L 54 50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 86 46 L 86 50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
+                    <path d="M 50 60 L 90 60" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                    <text x="55" y="110" font-size="20" fill="#ffb3cc">🍖</text>
+                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                </svg>`,
+                tired: `<svg width="140" height="160" viewBox="0 0 140 160">
+                    <ellipse cx="70" cy="95" rx="38" ry="40" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="70" cy="48" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
+                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
+                    <path d="M 48 40 Q 54 44 60 40" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 80 40 Q 86 44 92 40" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
+                    <line x1="58" y1="65" x2="62" y2="65" stroke="#333" stroke-width="1.5"/>
+                    <line x1="78" y1="65" x2="82" y2="65" stroke="#333" stroke-width="1.5"/>
+                    <text x="50" y="130" font-size="25" fill="#ffb3cc">💤</text>
+                    <ellipse cx="50" cy="128" rx="11" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="90" cy="128" rx="11" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                </svg>`,
+                dirty: `<svg width="140" height="160" viewBox="0 0 140 160">
+                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="70" cy="100" rx="25" ry="35" fill="#c4b5a0" opacity="0.6" stroke="none"/>
+                    <circle cx="70" cy="45" r="32" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="98" cy="20" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="42" cy="20" r="7" fill="#c4a590"/>
+                    <circle cx="98" cy="20" r="7" fill="#c4a590"/>
+                    <circle cx="54" cy="40" r="5" fill="#000"/>
+                    <circle cx="86" cy="40" r="5" fill="#000"/>
+                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#c4a590" stroke="#333" stroke-width="1"/>
+                    <circle cx="35" cy="30" r="2" fill="#996633" opacity="0.7"/>
+                    <circle cx="75" cy="55" r="2" fill="#996633" opacity="0.7"/>
+                    <circle cx="50" cy="80" r="1.5" fill="#996633" opacity="0.7"/>
+                    <circle cx="90" cy="75" r="1.5" fill="#996633" opacity="0.7"/>
+                    <circle cx="60" cy="110" r="2" fill="#996633" opacity="0.7"/>
+                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
+                </svg>`
+            };
+
+            return svgs[mood] || svgs.happy;
+        }
+
+        function getRandomMessage() {
+            const messages = [
+                'Tere! 😊',
+                'Ma olen tuju! 🎉',
+                'Kas sa mängiksin minuga? 🎮',
+                'Näljale! 🍖',
+                'Üldiselt kül hästi! 😻',
+                'Sõbrad teevad mind õnnelikuks! 👥',
+                'See on tore päev! ☀️',
+                'Kas ma näen hästi välja? 💅'
+            ];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function feed() {
+            if (game.hunger >= 100) {
+                showMessage('Ma ei ole näljane! 😸');
+                return;
+            }
+            triggerAnimation('eating');
+            game.hunger = Math.min(100, game.hunger + 30);
+            game.happiness += 5;
+            gainXP(10);
+            showMessage('Mmm, maitsev! 😋');
+            checkTaskProgress('feed');
+        }
+
+        function play() {
+            if (game.energy < 30) {
+                showMessage('Ma olen liiga väsinud! 😴');
+                return;
+            }
+            triggerAnimation('playing');
+            game.energy -= 25;
+            game.happiness += 20;
+            game.hunger -= 10;
+            gainXP(15);
+            showMessage('See oli lõbus! 🎮');
+            checkTaskProgress('play');
+        }
+
+        function sleep() {
+            if (game.energy >= 100) {
+                showMessage('Ma ei ole väsinud! 😸');
+                return;
+            }
+            triggerAnimation('sleeping');
+            game.energy = 100;
+            game.hunger -= 5;
+            game.happiness += 2;
+            gainXP(5);
+            showMessage('Magus oli super! 😪💤');
+        }
+
+        function bath() {
+            if (game.cleanliness >= 100) {
+                showMessage('Ma olen juba puhas! 🧼');
+                return;
+            }
+            triggerAnimation('bathing');
+            game.cleanliness = 100;
+            game.happiness += 10;
+            game.energy -= 10;
+            gainXP(12);
+            showMessage('Vaiaaaa! Nüüd olen puhas! 🚿');
+        }
+
+        function triggerAnimation(type) {
+            const display = document.getElementById('tigerDisplay');
+            display.classList.remove('eating', 'playing', 'sleeping', 'bathing');
+            
+            setTimeout(() => {
+                display.classList.add(type);
+            }, 10);
+            
+            setTimeout(() => {
+                display.classList.remove(type);
+                updateTigerDisplay();
+            }, 1500);
+        }
+
+        function gainXP(amount) {
+            game.xp += amount;
+            if (game.xp >= 100) {
+                game.level++;
+                game.xp = 0;
+                showMessage(`Hooray! Ma olen nüüd Level ${game.level}! 🎉`);
+                game.happiness = Math.min(100, game.happiness + 20);
+                addAchievement('level', `Level ${game.level} saavutatud!`, '⭐');
+            }
+        }
+
+        function showMessage(msg) {
+            triggerAnimation('playing');
+            game.message = msg;
+            document.getElementById('message').innerText = msg;
+        }
+
+        function renderClothesList() {
+            const grid = document.getElementById('clothesGrid');
+            grid.innerHTML = '';
+            game.clothes.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'clothes-item';
+                div.innerHTML = `<span class="clothes-emoji">${item.emoji}</span><span class="clothes-name">${item.name}</span>`;
+                div.onclick = () => wearClothing(item);
+                grid.appendChild(div);
+            });
+        }
+
+        function wearClothing(item) {
+            game.currentOutfit[item.type] = item.emoji;
+            showMessage(`Nüüd kannan ${item.name}! 💅`);
+            game.happiness += 5;
+            gainXP(8);
+            updateTigerDisplay();
+            checkTaskProgress('wear');
+        }
+
+        function renderFriendsList() {
+            const list = document.getElementById('friendsList');
+            list.innerHTML = '';
+            if (game.friends.length === 0) {
+                list.innerHTML = '<p style="color: #999;">Sul pole veel sõpru... otsi neid! 👇</p>';
+                return;
+            }
+            game.friends.forEach(friend => {
+                const div = document.createElement('div');
+                div.className = 'friend-item';
+                div.innerHTML = `<span class="friend-emoji">${friend.emoji}</span><span class="friend-name">${friend.name}</span>`;
+                list.appendChild(div);
+            });
+        }
+
+        function findFriend() {
+            pendingFriend = possibleFriends[Math.floor(Math.random() * possibleFriends.length)];
+            
+            // Check if already friend
+            if (game.friends.some(f => f.name === pendingFriend.name)) {
+                showMessage(`${pendingFriend.name} on juba sinu sõber! 👥`);
+                return;
+            }
+
+            document.getElementById('friendEmoji').innerText = pendingFriend.emoji;
+            document.getElementById('friendText').innerText = `Tere! Mina olen ${pendingFriend.name}. Kas sa tahad minuga sõbraks?`;
+            document.getElementById('friendModal').classList.add('show');
+        }
+
+        function acceptFriend() {
+            if (pendingFriend) {
+                game.friends.push(pendingFriend);
+                game.happiness += 15;
+                gainXP(20);
+                showMessage(`${pendingFriend.name} on nüüd sinu sõber! 👥`);
+                renderFriendsList();
+                checkTaskProgress('friend');
+                document.getElementById('friendModal').classList.remove('show');
+            }
+        }
+
+        function rejectFriend() {
+            if (pendingFriend) {
+                game.happiness -= 5;
+                document.getElementById('friendModal').classList.remove('show');
+            }
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('tasksList');
+            list.innerHTML = '';
+            game.tasks.forEach(task => {
+                const div = document.createElement('div');
+                div.className = 'task-item';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'task-checkbox';
+                checkbox.checked = task.completed;
+                checkbox.onchange = () => {
+                    task.completed = checkbox.checked;
+                    renderTasks();
+                    if (task.completed) {
+                        gainXP(task.reward);
+                        showMessage(`Ülesanne täidetud! +${task.reward} XP! 🎉`);
+                    }
+                };
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'task-text' + (task.completed ? ' completed' : '');
+                textDiv.innerText = task.text;
+                
+                const rewardDiv = document.createElement('div');
+                rewardDiv.className = 'task-reward';
+                rewardDiv.innerText = '+' + task.reward;
+                
+                div.appendChild(checkbox);
+                div.appendChild(textDiv);
+                div.appendChild(rewardDiv);
+                list.appendChild(div);
+            });
+        }
+
+        function checkTaskProgress(action) {
+            // Task 1: Feed 3 times
+            const feedCount = game.tasks[0].completed ? 3 : 0;
+            if (action === 'feed') {
+                // This is simplified - in full version would track
+            }
+            
+            // Task 3: Keep hunger below 30%
+            if (game.hunger < 30 && !game.tasks[2].completed) {
+                game.tasks[2].completed = true;
+                gainXP(game.tasks[2].reward);
+                renderTasks();
+            }
+
+            // Task 4: Find 3 friends
+            if (game.friends.length >= 3 && !game.tasks[3].completed) {
+                game.tasks[3].completed = true;
+                gainXP(game.tasks[3].reward);
+                renderTasks();
+            }
+        }
+
+        function checkTasks() {
+            // Simplified task checking
+            checkTaskProgress('auto');
+        }
+
+        function addAchievement(id, text, emoji) {
+            if (!game.achievements.find(a => a.id === id)) {
+                game.achievements.push({ id, text, emoji });
+                renderAchievements();
+            }
+        }
+
+        function renderAchievements() {
+            const div = document.getElementById('achievements');
+            if (game.achievements.length === 0) {
+                div.innerHTML = '<p style="color: #999;">Saavutusi pole veel...</p>';
+                return;
+            }
+            div.innerHTML = game.achievements.map(a => 
+                `<span class="achievement" title="${a.text}">${a.emoji}</span>`
+            ).join('');
+        }
+
+        // Start the game
+        init();
+    </script>
+</body>
+</html>
