@@ -61,8 +61,18 @@
 
         .tiger-display {
             font-size: 150px;
-            margin: 20px 0;
+            margin: 0 auto;
+            width: 160px;
+            height: 180px;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+            position: relative;
+        }
+
+        .scene-animal.tiger {
+            width: 160px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            z-index: 5;
         }
 
         .tiger-status {
@@ -394,6 +404,106 @@
             animation: tailWag 0.5s ease-in-out !important;
         }
 
+        .forest-area {
+            margin-top: 24px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #a0d8a0 0%, #3d8c4d 100%);
+            min-height: 260px;
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .forest-label {
+            padding: 12px 18px;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .forest-scene {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            border-radius: 20px;
+            background: radial-gradient(circle at 20% 15%, rgba(255,255,255,0.18), transparent 18%),
+                        radial-gradient(circle at 80% 10%, rgba(255,255,255,0.14), transparent 20%),
+                        linear-gradient(180deg, #36712c 0%, #0f3314 100%);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.38);
+        }
+
+        .forest-scene::before,
+        .forest-scene::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 220px;
+            background: radial-gradient(circle at 20% 20%, rgba(123, 201, 115, 0.9), transparent 45%),
+                        linear-gradient(180deg, rgba(15, 83, 25, 0.95), rgba(12, 50, 16, 0.9));
+            border-radius: 50% 50% 40% 40%;
+            top: -20px;
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        .forest-scene::before {
+            left: 0;
+            transform: rotate(-12deg);
+        }
+
+        .forest-scene::after {
+            right: 0;
+            transform: rotate(12deg);
+        }
+
+        .forest-scene .leaf {
+            position: absolute;
+            width: 140px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, rgba(143, 203, 104, 0.9), transparent 70%);
+            border-radius: 45% 55% 45% 55%;
+            opacity: 0.7;
+            transform: rotate(-10deg);
+        }
+
+        .forest-scene .leaf:nth-child(1) { left: 6%; top: 40px; transform: rotate(-18deg); }
+        .forest-scene .leaf:nth-child(2) { left: 75%; top: 10px; transform: rotate(22deg); }
+        .forest-scene .leaf:nth-child(3) { left: 30%; top: 70px; transform: rotate(8deg); }
+
+        .scene-animal {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-size: 2.2em;
+            transition: left 0.2s ease, top 0.2s ease;
+            text-shadow: 0 0 4px rgba(0,0,0,0.4);
+        }
+
+        .scene-animal.tiger {
+            font-size: 3.5em;
+        }
+
+        .scene-animal.pending {
+            opacity: 0.95;
+        }
+
+        .scene-animal.friend {
+            opacity: 0.85;
+        }
+
+        .movement-controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .movement-controls .btn {
+            font-size: 0.95em;
+            padding: 10px 12px;
+        }
+
         @media (max-width: 768px) {
             .game-layout {
                 grid-template-columns: 1fr;
@@ -423,7 +533,6 @@
             font-size: 2em;
             margin: 5px;
             cursor: help;
-            title: "achievement";
         }
     </style>
 </head>
@@ -436,83 +545,6 @@
 
         <div class="game-layout">
             <div class="tiger-section">
-                <div class="tiger-display" id="tigerDisplay">
-                    <svg width="140" height="160" viewBox="0 0 140 160">
-                        <!-- Back paw left -->
-                        <ellipse cx="40" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                        <ellipse cx="40" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
-                        
-                        <!-- Back paw right -->
-                        <ellipse cx="100" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                        <ellipse cx="100" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
-                        
-                        <!-- Body -->
-                        <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                        <!-- Belly -->
-                        <ellipse cx="70" cy="100" rx="25" ry="35" fill="#fffacd" opacity="0.5" stroke="none"/>
-                        
-                        <!-- Head -->
-                        <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                        
-                        <!-- Ears -->
-                        <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                        <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                        <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
-                        <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
-                        
-                        <!-- Stripes on head -->
-                        <path d="M 50 35 Q 55 42 50 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        <path d="M 90 35 Q 85 42 90 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Stripes on body -->
-                        <path d="M 55 80 Q 60 90 55 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <path d="M 85 80 Q 80 90 85 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-                        <path d="M 50 110 Q 55 120 50 130" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <path d="M 90 110 Q 85 120 90 130" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Eyes -->
-                        <circle cx="54" cy="40" r="5" fill="#000"/>
-                        <circle cx="86" cy="40" r="5" fill="#000"/>
-                        <circle cx="55" cy="39" r="1.5" fill="#fff"/>
-                        <circle cx="87" cy="39" r="1.5" fill="#fff"/>
-                        
-                        <!-- Eyebrows -->
-                        <path d="M 48 34 Q 54 32 60 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <path d="M 80 34 Q 86 32 92 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        
-                        <!-- Nose -->
-                        <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
-                        
-                        <!-- Mouth -->
-                        <path d="M 70 56 Q 62 63 55 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <path d="M 70 56 Q 78 63 85 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <!-- Tongue -->
-                        <ellipse cx="70" cy="65" rx="3" ry="4" fill="#ff9999" opacity="0.7"/>
-                        
-                        <!-- Front paw left -->
-                        <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                        <ellipse cx="50" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
-                        <!-- Paw pads -->
-                        <circle cx="46" cy="142" r="1.5" fill="#ffb3cc"/>
-                        <circle cx="50" cy="143" r="1.5" fill="#ffb3cc"/>
-                        <circle cx="54" cy="142" r="1.5" fill="#ffb3cc"/>
-                        
-                        <!-- Front paw right -->
-                        <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                        <ellipse cx="90" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
-                        <!-- Paw pads -->
-                        <circle cx="86" cy="142" r="1.5" fill="#ffb3cc"/>
-                        <circle cx="90" cy="143" r="1.5" fill="#ffb3cc"/>
-                        <circle cx="94" cy="142" r="1.5" fill="#ffb3cc"/>
-                        
-                        <!-- Tail -->
-                        <g class="tail">
-                            <path d="M 105 85 Q 125 75 130 55" stroke="#f5f0ff" stroke-width="14" fill="none" stroke-linecap="round"/>
-                            <path d="M 105 85 Q 125 75 130 55" stroke="#ffb3cc" stroke-width="6" fill="none" stroke-linecap="round"/>
-                        </g>
-                    </svg>
-                </div>
-                
                 <div class="tiger-status">
                     <div class="status-item">
                         <div class="status-label">Näljane</div>
@@ -520,7 +552,7 @@
                         <div class="status-value" id="hungerValue">70%</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-label">Õnnellikkus</div>
+                        <div class="status-label">Õnnelikkus</div>
                         <div class="status-bar"><div class="status-fill" id="happinessBar" style="width: 80%"></div></div>
                         <div class="status-value" id="happinessValue">80%</div>
                     </div>
@@ -538,11 +570,22 @@
 
                 <div class="message" id="message">Tere! Ma olen Sneezy! 🎉</div>
 
+                <div class="forest-area">
+                    <div class="forest-label">Troopiline džungel, kus valge tiiger liigub ja leiab sõpru.</div>
+                    <div class="forest-scene" id="forestScene"></div>
+                    <div class="movement-controls">
+                        <button class="btn btn-secondary" onclick="moveTiger('up')">⬆️ Üles</button>
+                        <button class="btn btn-secondary" onclick="moveTiger('left')">⬅️ Vasakule</button>
+                        <button class="btn btn-secondary" onclick="moveTiger('right')">➡️ Paremale</button>
+                        <button class="btn btn-secondary" onclick="moveTiger('down')">⬇️ Alla</button>
+                    </div>
+                </div>
+
                 <div class="controls">
-                    <button class="btn btn-success" onclick="feed()">🍖 Söida</button>
+                    <button class="btn btn-success" onclick="feed()">🍖 Söö</button>
                     <button class="btn btn-info" onclick="play()">🎮 Mängi</button>
-                    <button class="btn btn-secondary" onclick="sleep()">😴 Uni</button>
-                    <button class="btn btn-secondary" onclick="bath()">🚿 Pesi</button>
+                    <button class="btn btn-secondary" onclick="sleep()">😴 Maga</button>
+                    <button class="btn btn-secondary" onclick="bath()">🚿 Pese</button>
                 </div>
             </div>
 
@@ -598,6 +641,10 @@
             level: 1,
             clothes: [],
             currentOutfit: { top: null, bottom: null, hat: null },
+            position: { x: 50, y: 55 },
+            size: 'M',
+            visibleAnimals: [],
+            sceneAnimals: [],
             friends: [],
             tasks: [
                 { id: 1, text: 'Söida 3 korda', completed: false, reward: 20 },
@@ -611,14 +658,14 @@
         };
 
         const clothingItems = [
-            { id: 1, name: 'Müts', emoji: '🎩', type: 'hat' },
-            { id: 2, name: 'Prillid', emoji: '🕶️', type: 'hat' },
-            { id: 3, name: 'Suhvad', emoji: '🧥', type: 'top' },
-            { id: 4, name: 'Kleit', emoji: '👗', type: 'top' },
-            { id: 5, name: 'Jop', emoji: '🧤', type: 'top' },
-            { id: 6, name: 'Puks', emoji: '👖', type: 'bottom' },
-            { id: 7, name: 'Sukad', emoji: '🧦', type: 'bottom' },
-            { id: 8, name: 'Kingad', emoji: '👞', type: 'bottom' }
+            { id: 1, name: 'Müts S', emoji: '🎩', type: 'hat', size: 'S' },
+            { id: 2, name: 'Prillid M', emoji: '🕶️', type: 'hat', size: 'M' },
+            { id: 3, name: 'Särk M', emoji: '🧥', type: 'top', size: 'M' },
+            { id: 4, name: 'Kleit L', emoji: '👗', type: 'top', size: 'L' },
+            { id: 5, name: 'Jope M', emoji: '🧤', type: 'top', size: 'M' },
+            { id: 6, name: 'Püksid M', emoji: '👖', type: 'bottom', size: 'M' },
+            { id: 7, name: 'Sukad S', emoji: '🧦', type: 'bottom', size: 'S' },
+            { id: 8, name: 'Kingad L', emoji: '👞', type: 'bottom', size: 'L' }
         ];
 
         const possibleFriends = [
@@ -638,6 +685,8 @@
         function init() {
             game.clothes = [...clothingItems];
             renderClothesList();
+            initializeForestAnimals();
+            renderForestScene();
             renderFriendsList();
             renderTasks();
             renderAchievements();
@@ -694,13 +743,13 @@
             // Add clothing on top
             let clothingHTML = '';
             if (game.currentOutfit.hat) {
-                clothingHTML += `<div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.hat}</div>`;
+                clothingHTML += `<div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 2.3em;">${game.currentOutfit.hat}</div>`;
             }
             if (game.currentOutfit.top) {
-                clothingHTML += `<div style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.top}</div>`;
+                clothingHTML += `<div style="position: absolute; top: 82px; left: 50%; transform: translateX(-50%); font-size: 1.75em;">${game.currentOutfit.top}</div>`;
             }
             if (game.currentOutfit.bottom) {
-                clothingHTML += `<div style="position: absolute; top: 70px; left: 50%; transform: translateX(-50%); font-size: 2em;">${game.currentOutfit.bottom}</div>`;
+                clothingHTML += `<div style="position: absolute; top: 128px; left: 50%; transform: translateX(-50%); font-size: 1.7em;">${game.currentOutfit.bottom}</div>`;
             }
             
             outfit += clothingHTML + '</div>';
@@ -715,98 +764,111 @@
             else if (game.cleanliness < 30) mood = 'dirty';
 
             const svgs = {
-                happy: `<svg width="140" height="160" viewBox="0 0 140 160">
-                    <ellipse cx="40" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="40" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
-                    <ellipse cx="100" cy="125" rx="10" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="100" cy="133" rx="8" ry="5" fill="#ffccdd" opacity="0.7"/>
-                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="70" cy="100" rx="25" ry="35" fill="#fffacd" opacity="0.5" stroke="none"/>
-                    <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
-                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
-                    <path d="M 50 35 Q 55 42 50 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                    <path d="M 90 35 Q 85 42 90 48" stroke="#ffb3cc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                    <path d="M 55 80 Q 60 90 55 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <path d="M 85 80 Q 80 90 85 100" stroke="#ffb3cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <circle cx="54" cy="40" r="5" fill="#000"/>
-                    <circle cx="86" cy="40" r="5" fill="#000"/>
-                    <circle cx="55" cy="39" r="2" fill="#fff"/>
-                    <circle cx="87" cy="39" r="2" fill="#fff"/>
-                    <path d="M 48 34 Q 54 30 60 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                    <path d="M 80 34 Q 86 30 92 34" stroke="#ffb3cc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
-                    <path d="M 70 56 Q 62 64 55 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                    <path d="M 70 56 Q 78 64 85 60" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                    <ellipse cx="70" cy="66" rx="3" ry="4" fill="#ff9999" opacity="0.7"/>
-                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="50" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
-                    <circle cx="46" cy="142" r="1.5" fill="#ffb3cc"/>
-                    <circle cx="50" cy="143" r="1.5" fill="#ffb3cc"/>
-                    <circle cx="54" cy="142" r="1.5" fill="#ffb3cc"/>
-                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="90" cy="140" rx="8" ry="6" fill="#ffccdd" opacity="0.7"/>
-                    <circle cx="86" cy="142" r="1.5" fill="#ffb3cc"/>
-                    <circle cx="90" cy="143" r="1.5" fill="#ffb3cc"/>
-                    <circle cx="94" cy="142" r="1.5" fill="#ffb3cc"/>
+                happy: `<svg width="160" height="180" viewBox="0 0 160 180">
+                    <ellipse cx="40" cy="135" rx="11" ry="15" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="40" cy="145" rx="8" ry="5" fill="#f7e9d5" opacity="0.7"/>
+                    <ellipse cx="110" cy="135" rx="11" ry="15" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="110" cy="145" rx="8" ry="5" fill="#f7e9d5" opacity="0.7"/>
+                    <ellipse cx="80" cy="95" rx="38" ry="45" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <ellipse cx="80" cy="105" rx="25" ry="35" fill="#fffdf4" opacity="0.7" stroke="none"/>
+                    <circle cx="80" cy="50" r="32" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="120" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="7" fill="#f7e9d5"/>
+                    <circle cx="120" cy="25" r="7" fill="#f7e9d5"/>
+                    <path d="M 50 32 Q 62 18 74 30" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 86 30 Q 98 18 110 32" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 60 38 Q 70 18 80 36" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 90 38 Q 100 18 110 38" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 56 45 Q 65 60 54 74" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 104 45 Q 95 60 106 74" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <circle cx="58" cy="42" r="5" fill="#5ed6ff"/>
+                    <circle cx="102" cy="42" r="5" fill="#5ed6ff"/>
+                    <circle cx="59" cy="41" r="2" fill="#fff"/>
+                    <circle cx="103" cy="41" r="2" fill="#fff"/>
+                    <path d="M 64 50 Q 80 44 96 50" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="80" cy="60" rx="6" ry="3.5" fill="#f7c0d4" stroke="#222" stroke-width="1"/>
+                    <path d="M 80 66 Q 72 74 64 68" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <path d="M 80 66 Q 88 74 96 68" stroke="#222" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="80" cy="72" rx="4" ry="5" fill="#f38f9d" opacity="0.7"/>
+                    <ellipse cx="45" cy="138" rx="12" ry="16" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="45" cy="150" rx="8" ry="6" fill="#f7e9d5" opacity="0.7"/>
+                    <circle cx="40" cy="152" r="1.5" fill="#f7c0d4"/>
+                    <circle cx="45" cy="154" r="1.5" fill="#f7c0d4"/>
+                    <circle cx="50" cy="152" r="1.5" fill="#f7c0d4"/>
+                    <ellipse cx="115" cy="138" rx="12" ry="16" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="115" cy="150" rx="8" ry="6" fill="#f7e9d5" opacity="0.7"/>
+                    <circle cx="110" cy="152" r="1.5" fill="#f7c0d4"/>
+                    <circle cx="115" cy="154" r="1.5" fill="#f7c0d4"/>
+                    <circle cx="120" cy="152" r="1.5" fill="#f7c0d4"/>
                     <g class="tail">
-                        <path d="M 105 85 Q 125 75 130 55" stroke="#f5f0ff" stroke-width="14" fill="none" stroke-linecap="round"/>
-                        <path d="M 105 85 Q 125 75 130 55" stroke="#ffb3cc" stroke-width="6" fill="none" stroke-linecap="round"/>
+                        <path d="M 115 85 Q 135 75 140 55" stroke="#fbfbf7" stroke-width="14" fill="none" stroke-linecap="round"/>
+                        <path d="M 115 85 Q 135 75 140 55" stroke="#111" stroke-width="6" fill="none" stroke-linecap="round"/>
                     </g>
                 </svg>`,
-                hungry: `<svg width="140" height="160" viewBox="0 0 140 160">
-                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#f5f0ff" stroke="#333" stroke-width="2" opacity="0.85"/>
-                    <circle cx="70" cy="45" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
-                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
-                    <circle cx="54" cy="40" r="5" fill="#000"/>
-                    <circle cx="86" cy="40" r="5" fill="#000"/>
-                    <path d="M 54 46 L 54 50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M 86 46 L 86 50" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
-                    <path d="M 50 60 L 90 60" stroke="#333" stroke-width="2" stroke-linecap="round"/>
-                    <text x="55" y="110" font-size="20" fill="#ffb3cc">🍖</text>
-                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                hungry: `<svg width="160" height="180" viewBox="0 0 160 180">
+                    <ellipse cx="80" cy="95" rx="38" ry="45" fill="#fbfbf7" stroke="#222" stroke-width="2" opacity="0.85"/>
+                    <circle cx="80" cy="50" r="32" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="110" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="7" fill="#f7e9d5"/>
+                    <circle cx="110" cy="25" r="7" fill="#f7e9d5"/>
+                    <path d="M 50 32 Q 62 18 74 30" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 90 32 Q 102 18 114 34" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <circle cx="58" cy="42" r="5" fill="#5ed6ff"/>
+                    <circle cx="102" cy="42" r="5" fill="#5ed6ff"/>
+                    <path d="M 54 46 L 54 50" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 86 46 L 86 50" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    <ellipse cx="80" cy="52" rx="4" ry="3.5" fill="#f7c0d4" stroke="#222" stroke-width="1"/>
+                    <path d="M 50 60 L 90 60" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    <text x="55" y="110" font-size="20" fill="#f7c0d4">🍖</text>
+                    <ellipse cx="45" cy="138" rx="12" ry="16" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="45" cy="150" rx="8" ry="6" fill="#f7e9d5" opacity="0.7"/>
+                    <ellipse cx="115" cy="138" rx="12" ry="16" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="115" cy="150" rx="8" ry="6" fill="#f7e9d5" opacity="0.7"/>
                 </svg>`,
-                tired: `<svg width="140" height="160" viewBox="0 0 140 160">
-                    <ellipse cx="70" cy="95" rx="38" ry="40" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="70" cy="48" r="32" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="98" cy="20" r="12" fill="#f5f0ff" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="7" fill="#ffccdd"/>
-                    <circle cx="98" cy="20" r="7" fill="#ffccdd"/>
-                    <path d="M 48 40 Q 54 44 60 40" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <path d="M 80 40 Q 86 44 92 40" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#ffb3cc" stroke="#333" stroke-width="1"/>
-                    <line x1="58" y1="65" x2="62" y2="65" stroke="#333" stroke-width="1.5"/>
-                    <line x1="78" y1="65" x2="82" y2="65" stroke="#333" stroke-width="1.5"/>
-                    <text x="50" y="130" font-size="25" fill="#ffb3cc">💤</text>
-                    <ellipse cx="50" cy="128" rx="11" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="90" cy="128" rx="11" ry="14" fill="#f5f0ff" stroke="#333" stroke-width="1.5"/>
+                tired: `<svg width="160" height="180" viewBox="0 0 160 180">
+                    <ellipse cx="80" cy="100" rx="38" ry="40" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="80" cy="53" r="32" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="110" cy="25" r="12" fill="#fbfbf7" stroke="#222" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="7" fill="#f7e9d5"/>
+                    <circle cx="110" cy="25" r="7" fill="#f7e9d5"/>
+                    <path d="M 50 32 Q 65 18 74 32" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 86 32 Q 100 18 112 34" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <circle cx="58" cy="42" r="5" fill="#5ed6ff"/>
+                    <circle cx="102" cy="42" r="5" fill="#5ed6ff"/>
+                    <path d="M 48 40 Q 54 44 60 40" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 80 40 Q 86 44 92 40" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <ellipse cx="80" cy="52" rx="4" ry="3.5" fill="#f7c0d4" stroke="#222" stroke-width="1"/>
+                    <line x1="58" y1="65" x2="62" y2="65" stroke="#222" stroke-width="1.5"/>
+                    <line x1="78" y1="65" x2="82" y2="65" stroke="#222" stroke-width="1.5"/>
+                    <text x="50" y="140" font-size="25" fill="#f7c0d4">💤</text>
+                    <ellipse cx="45" cy="143" rx="11" ry="14" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
+                    <ellipse cx="115" cy="143" rx="11" ry="14" fill="#fbfbf7" stroke="#222" stroke-width="1.5"/>
                 </svg>`,
-                dirty: `<svg width="140" height="160" viewBox="0 0 140 160">
-                    <ellipse cx="70" cy="90" rx="38" ry="45" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
-                    <ellipse cx="70" cy="100" rx="25" ry="35" fill="#c4b5a0" opacity="0.6" stroke="none"/>
-                    <circle cx="70" cy="45" r="32" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
-                    <circle cx="98" cy="20" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
-                    <circle cx="42" cy="20" r="7" fill="#c4a590"/>
-                    <circle cx="98" cy="20" r="7" fill="#c4a590"/>
-                    <circle cx="54" cy="40" r="5" fill="#000"/>
-                    <circle cx="86" cy="40" r="5" fill="#000"/>
-                    <ellipse cx="70" cy="52" rx="4" ry="3.5" fill="#c4a590" stroke="#333" stroke-width="1"/>
+                dirty: `<svg width="160" height="180" viewBox="0 0 160 180">
+                    <ellipse cx="80" cy="95" rx="38" ry="45" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <ellipse cx="80" cy="105" rx="25" ry="35" fill="#c4b5a0" opacity="0.6" stroke="none"/>
+                    <circle cx="80" cy="50" r="32" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="110" cy="25" r="12" fill="#d9c9b8" stroke="#333" stroke-width="2"/>
+                    <circle cx="50" cy="25" r="7" fill="#c4a590"/>
+                    <circle cx="110" cy="25" r="7" fill="#c4a590"/>
+                    <circle cx="58" cy="42" r="5" fill="#5ed6ff"/>
+                    <circle cx="102" cy="42" r="5" fill="#5ed6ff"/>
+                    <ellipse cx="80" cy="52" rx="4" ry="3.5" fill="#c4a590" stroke="#333" stroke-width="1"/>
+                    <path d="M 50 32 Q 62 18 74 30" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 86 32 Q 98 18 110 34" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
                     <circle cx="35" cy="30" r="2" fill="#996633" opacity="0.7"/>
                     <circle cx="75" cy="55" r="2" fill="#996633" opacity="0.7"/>
                     <circle cx="50" cy="80" r="1.5" fill="#996633" opacity="0.7"/>
                     <circle cx="90" cy="75" r="1.5" fill="#996633" opacity="0.7"/>
                     <circle cx="60" cy="110" r="2" fill="#996633" opacity="0.7"/>
-                    <ellipse cx="50" cy="128" rx="11" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
-                    <ellipse cx="90" cy="128" rx="11" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="50" cy="138" rx="12" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="50" cy="150" rx="8" ry="6" fill="#c4b5a0" opacity="0.7"/>
+                    <ellipse cx="115" cy="138" rx="12" ry="16" fill="#d9c9b8" stroke="#333" stroke-width="1.5"/>
+                    <ellipse cx="115" cy="150" rx="8" ry="6" fill="#c4b5a0" opacity="0.7"/>
                 </svg>`
             };
 
@@ -816,10 +878,10 @@
         function getRandomMessage() {
             const messages = [
                 'Tere! 😊',
-                'Ma olen tuju! 🎉',
-                'Kas sa mängiksin minuga? 🎮',
-                'Näljale! 🍖',
-                'Üldiselt kül hästi! 😻',
+                'Mul on hea tuju! 🎉',
+                'Kas sa mängiksid minuga? 🎮',
+                'Ma olen näljane! 🍖',
+                'Kõik on hästi! 😻',
                 'Sõbrad teevad mind õnnelikuks! 👥',
                 'See on tore päev! ☀️',
                 'Kas ma näen hästi välja? 💅'
@@ -877,7 +939,7 @@
             game.happiness += 10;
             game.energy -= 10;
             gainXP(12);
-            showMessage('Vaiaaaa! Nüüd olen puhas! 🚿');
+            showMessage('Väga hea! Nüüd olen puhas! 🚿');
         }
 
         function triggerAnimation(type) {
@@ -899,9 +961,9 @@
             if (game.xp >= 100) {
                 game.level++;
                 game.xp = 0;
-                showMessage(`Hooray! Ma olen nüüd Level ${game.level}! 🎉`);
+                showMessage(`Juhhu! Ma olen nüüd tasemel ${game.level}! 🎉`);
                 game.happiness = Math.min(100, game.happiness + 20);
-                addAchievement('level', `Level ${game.level} saavutatud!`, '⭐');
+                addAchievement('level', `Taseme ${game.level} saavutamine!`, '⭐');
             }
         }
 
@@ -917,13 +979,17 @@
             game.clothes.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'clothes-item';
-                div.innerHTML = `<span class="clothes-emoji">${item.emoji}</span><span class="clothes-name">${item.name}</span>`;
+                div.innerHTML = `<span class="clothes-emoji">${item.emoji}</span><span class="clothes-name">${item.name}</span><div style="font-size:0.72em;color:#888;margin-top:4px;">Suurus: ${item.size}</div>`;
                 div.onclick = () => wearClothing(item);
                 grid.appendChild(div);
             });
         }
 
         function wearClothing(item) {
+            if (item.size !== game.size) {
+                showMessage(`${item.name} ei sobi mulle, sest minu suurus on ${game.size}.`);
+                return;
+            }
             game.currentOutfit[item.type] = item.emoji;
             showMessage(`Nüüd kannan ${item.name}! 💅`);
             game.happiness += 5;
@@ -942,32 +1008,45 @@
             game.friends.forEach(friend => {
                 const div = document.createElement('div');
                 div.className = 'friend-item';
-                div.innerHTML = `<span class="friend-emoji">${friend.emoji}</span><span class="friend-name">${friend.name}</span>`;
+                div.innerHTML = `<span class="friend-emoji">${friend.emoji}</span><span class="friend-name">${friend.name}</span><span style="font-size:0.8em;color:#777;">Suurus: ${friend.size || 'M'}</span>`;
                 list.appendChild(div);
             });
         }
 
         function findFriend() {
-            pendingFriend = possibleFriends[Math.floor(Math.random() * possibleFriends.length)];
-            
-            // Check if already friend
+            if (game.visibleAnimals.length === 0) {
+                initializeForestAnimals();
+            }
+            pendingFriend = game.visibleAnimals[Math.floor(Math.random() * game.visibleAnimals.length)];
+            if (!pendingFriend) {
+                pendingFriend = possibleFriends[Math.floor(Math.random() * possibleFriends.length)];
+            }
+
             if (game.friends.some(f => f.name === pendingFriend.name)) {
                 showMessage(`${pendingFriend.name} on juba sinu sõber! 👥`);
                 return;
             }
 
             document.getElementById('friendEmoji').innerText = pendingFriend.emoji;
-            document.getElementById('friendText').innerText = `Tere! Mina olen ${pendingFriend.name}. Kas sa tahad minuga sõbraks?`;
+            document.getElementById('friendText').innerText = `Tere! Mina olen ${pendingFriend.name}. Kas sa tahad minuga sõbraks saada?`;
             document.getElementById('friendModal').classList.add('show');
         }
 
         function acceptFriend() {
             if (pendingFriend) {
+                const friendPosition = {
+                    ...pendingFriend,
+                    x: 15 + Math.random() * 70,
+                    y: 20 + Math.random() * 60
+                };
                 game.friends.push(pendingFriend);
+                game.sceneAnimals.push(friendPosition);
+                game.visibleAnimals = game.visibleAnimals.filter(f => f.name !== pendingFriend.name);
                 game.happiness += 15;
                 gainXP(20);
                 showMessage(`${pendingFriend.name} on nüüd sinu sõber! 👥`);
                 renderFriendsList();
+                renderForestScene();
                 checkTaskProgress('friend');
                 document.getElementById('friendModal').classList.remove('show');
             }
@@ -1011,6 +1090,76 @@
                 div.appendChild(textDiv);
                 div.appendChild(rewardDiv);
                 list.appendChild(div);
+            });
+        }
+
+        function initializeForestAnimals() {
+            const animals = [...possibleFriends].sort(() => 0.5 - Math.random()).slice(0, 3);
+            game.visibleAnimals = animals.map(animal => ({
+                ...animal,
+                x: 15 + Math.random() * 70,
+                y: 20 + Math.random() * 60
+            }));
+        }
+
+        function renderForestScene() {
+            const scene = document.getElementById('forestScene');
+            if (!scene) return;
+            scene.innerHTML = `
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div id="sceneTiger" class="scene-animal tiger" style="left: ${game.position.x}%; top: ${game.position.y}%;">
+                    <div class="tiger-display" id="tigerDisplay"></div>
+                </div>
+            `;
+            game.visibleAnimals.forEach(animal => {
+                const div = document.createElement('div');
+                div.className = 'scene-animal pending';
+                div.style.left = animal.x + '%';
+                div.style.top = animal.y + '%';
+                div.innerText = animal.emoji;
+                div.title = `${animal.name} ootab sõprust`;
+                scene.appendChild(div);
+            });
+            game.sceneAnimals.forEach(animal => {
+                const div = document.createElement('div');
+                div.className = 'scene-animal friend';
+                div.style.left = animal.x + '%';
+                div.style.top = animal.y + '%';
+                div.innerText = animal.emoji;
+                div.title = `${animal.name} on sinu sõber`;
+                scene.appendChild(div);
+            });
+            updateTigerDisplay();
+        }
+
+        function updateForestScenePosition() {
+            const tiger = document.getElementById('sceneTiger');
+            if (tiger) {
+                tiger.style.left = game.position.x + '%';
+                tiger.style.top = game.position.y + '%';
+            }
+        }
+
+        function moveTiger(direction) {
+            const step = 8;
+            if (direction === 'left') game.position.x = Math.max(10, game.position.x - step);
+            if (direction === 'right') game.position.x = Math.min(90, game.position.x + step);
+            if (direction === 'up') game.position.y = Math.max(10, game.position.y - step);
+            if (direction === 'down') game.position.y = Math.min(85, game.position.y + step);
+            updateForestScenePosition();
+            showMessage(`Sa kõndisid ${direction === 'left' ? 'vasakule' : direction === 'right' ? 'paremale' : direction === 'up' ? 'üles' : 'alla'} metsa.`);
+            checkNearbyFriend();
+        }
+
+        function checkNearbyFriend() {
+            game.visibleAnimals.forEach(animal => {
+                const dx = Math.abs(game.position.x - animal.x);
+                const dy = Math.abs(game.position.y - animal.y);
+                if (dx < 10 && dy < 10) {
+                    showMessage(`Sa näed ${animal.name} metsa lähedal! 🐾`);
+                }
             });
         }
 
